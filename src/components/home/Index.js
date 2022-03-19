@@ -1,3 +1,4 @@
+import ChatBot from './ChatBot';
 import { useEffect } from 'react';
 import { Box, Container } from '@mui/material';
 
@@ -13,6 +14,9 @@ export const Home = () => {
             <Box display="flex">
                 Dashboard / Home Feature
             </Box>
+
+            <ChatBot/>
+            
         </Container>
     )
 }
