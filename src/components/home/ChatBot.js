@@ -1,140 +1,203 @@
-import * as React from "react";
-import Button from "@mui/material/Button";
-import ForumIcon from "@mui/icons-material/Forum";
-import CloseIcon from "@mui/icons-material/Close";
-import Box from "@mui/material/Box";
-import "@progress/kendo-theme-default/dist/all.css";
-import { Popup } from "@progress/kendo-react-popup";
-import { Chat, ChatMessage } from "@progress/kendo-react-conversational-ui";
+import React from "react";
+import ChatBots from "react-simple-chatbot";
+import { ThemeProvider } from "styled-components";
 
-const CustomChatMessage = (props) => (
-  <ChatMessage {...props} dateFormat={"t"} />
-);
-const user = { id: 1 };
-const bot = { id: 0 };
-const initialMessages = [
-  {
-    author: bot,
-    suggestedActions: [
-      {
-        value: "License",
-        type: "reply",
-      },
-      {
-        value: "Subscription",
-        type: "reply",
-      },
-      {
-        value: "Pricing Matrix",
-        type: "reply",
-      },
-      {
-        value: "Pricing Matrix",
-        type: "reply",
-      },
-      {
-        value: "Others",
-        type: "reply",
-      },
-    ],
-    timestamp: new Date(),
-    text: "Hi! I'm Mr. Pajama your virtual assistant. How may I help you today?",
-  },
-];
-
-const initialMessages2 = [
-  {
-    author: bot,
-    suggestedActions: [
-      {
-        type: "reply",
-        value: "How can I get licese?",
-      },
-      {
-        type: "reply",
-        value: "How can i upgrade my license?",
-      },
-      {
-        type: "reply",
-        value: "Others",
-      },
-    ],
-    timestamp: new Date(),
-  },
-];
-
-const ChatBot = () => {
-  const [show, setShow] = React.useState(false);
-  React.useEffect(() => {
-    setShow(false);
-  }, []);
-
-  const onClick = () => {
-    setShow(!show);
+function ChatBot(props) {
+  const config = {
+    width: "400px",
+    height: "600px",
+    floating: true,
   };
-
-  const [messages, setMessages] = React.useState(initialMessages);
-  const [messages2, setMessages2] = React.useState(initialMessages2);
-
-  const addNewMessage = (event) => {
-    let botResponce = Object.assign({}, event.message);
-    botResponce.text = reply(event.message.text);
-    botResponce.author = bot;
-    setMessages((oldMessage) => [...oldMessage, event.message]);
-    setTimeout(() => {
-      setMessages((oldMessage) => [...oldMessage, botResponce]);
-    }, 1000);
+  const options = {
+    color: "#cccccc",
   };
-
-  const reply = (question) => {
-    let length = question.length;
-    let answer = question + " contains exactly " + length + " symbols.";
-    return answer;
-  };
-
-  const onAction = (event) => {
-    if (event.action.type === "alert") {
-      setMessages([
-        ...messages,
+  const steps = [
+    {
+      id: "Greet",
+      message: "Hi I'm Mr. Pajama your virtual assistant. How may I help you?",
+      trigger: "Greet1",
+    },
+    {
+      id: "Greet1",
+      message: "Lets get started!",
+      trigger: "Greet2",
+    },
+    {
+      id: "Greet2",
+      message: "What would you like to know?",
+      trigger: "Displaying options",
+    },
+    {
+      id: "Displaying options",
+      options: [
         {
-          author: user,
-          text: event.action.value,
+          value: "License",
+          label: "License",
+          trigger: "Asking for License",
         },
-      ]);
-    }
-  };
+        {
+          value: "Subscription",
+          label: "Subscription",
+          trigger: "Asking for Subscription",
+        },
+        {
+          value: "Pricing Matrix",
+          label: "Pricing Matrix",
+          trigger: "Asking for Subscription",
+        },
+        {
+          value: "Pricing Matrix",
+          label: "Pricing Matrix",
+          trigger: "Asking for Subscription",
+        },
+        {
+          value: "Others",
+          label: "Others",
+          trigger: "Asking for Subscription",
+        },
+      ],
+    },
+    {
+      id: "Asking for Subscription",
+      message: "Do you want to Subscribe?",
+      trigger: "Asking for permission",
+    },
+    {
+      id: "Asking for permission",
+      options: [
+        {
+          value: true,
+          label: "Yes",
+          trigger: "Done",
+        },
+        {
+          value: "false",
+          label: "No",
+          trigger: "feedback",
+        },
+      ],
+    },
+    {
+      id: "Asking for License",
+      options: [
+        {
+          id: "get",
+          value: true,
+          label: "How can I get license?",
+          trigger: "get",
+        },
+        {
+          id: "upgrade",
+          value: "false",
+          label: "How can I upgrade License?",
+          trigger: "upgrade",
+        },
+      ],
+    },
+    {
+      id: "get",
+      message: "Punta ka LTO lods",
+      trigger: "feedback",
+    },
+    {
+      id: "upgrade",
+      message: "https://www.transport.wa.gov.au/licensing/u",
+      trigger: "feedback",
+    },
+    {
+      id: "feedback",
+      message: "Was this helpful?",
+      trigger: "feed back choices",
+    },
 
-  //eto yung position ng chatbox
-  const offset = {
-    left: 1400,
-    top: 260,
+    {
+      id: "feed back choices",
+      options: [
+        {
+          id: "yes",
+          value: true,
+          label: "Yes",
+          trigger: () => {
+            //props.eventHandler("mushroom");
+            return "final feedback";
+          },
+        },
+        {
+          id: "no",
+          value: "false",
+          label: "No",
+          trigger: "sorry to hear that",
+        },
+      ],
+    },
+    {
+      id: "final feedback",
+      message: "Thanks for your feedback.",
+      trigger: "Done",
+    },
+    {
+      id: "sorry to hear that",
+      message:
+        "Sorry about that. Would you like me to connect you to CHT Agent instead?",
+      trigger: "Adding Corn in Pizza",
+    },
+
+    {
+      id: "Adding Corn in Pizza",
+      options: [
+        {
+          value: true,
+          label: "Yes",
+          trigger: () => {
+            //props.eventHandler("corn");
+            return "Asking for cht agent";
+          },
+        },
+        {
+          value: "false",
+          label: "No",
+          trigger: "Done",
+        },
+      ],
+    },
+
+    {
+      id: "Asking for cht agent",
+      options: [
+        {
+          value: true,
+          label: "Chat with CHT Agent",
+          trigger: () => {
+            //props.eventHandler("veggie");
+            return "Done";
+          },
+        },
+      ],
+    },
+    {
+      id: "Done",
+      message: "Have a great day !!",
+      end: true,
+    },
+  ];
+  const theme = {
+    background: "white",
+    fontFamily: "Arial, Helvetica, sans-serif",
+    headerBgColor: "#1b7ced",
+    headerFontColor: "#fff",
+    headerFontSize: "25px",
+    botBubbleColor: "#1b7ced",
+    botBubbleSize: "20px",
+    botFontColor: "#fff",
+    userBubbleColor: "#073763",
+    userFontColor: "#ffffff",
+    bubbleOptionStyle: "#cccccc",
   };
 
   return (
-    <>
-    {/*eto yung position ng button*/} 
-    <Box
-		sx={{
-  		position: "absolute",
-  		top: 875,
-  		left: "90.6%",
-		}}>
-        	<Button
-        	  variant="contained"
-         	  size="large"
-         	  icon="comments"
-         	  style={{ borderRadius: "28px" }}
-         	  onClick={onClick}
-        	>
-        	  {show ? <CloseIcon></CloseIcon> : <ForumIcon></ForumIcon>}
-        	</Button>
-          </Box>
-
-        		<Popup offset={offset} show={show} popupClass={"popup-content"} >
-            	<Chat user={user} messages={messages} onMessageSend={addNewMessage} placeholder={"Type a message..."} width={400} onActionExecute={onAction}
-					 message={CustomChatMessage} style={{ width: "38%", padding: "150px", marginRight: "40%" }} required />
-        		</Popup>
-    </>
+    <ThemeProvider theme={theme}>
+      <ChatBots steps={steps} {...config} />
+    </ThemeProvider>
   );
-};
+}
 export default ChatBot;
