@@ -13,7 +13,6 @@ export const Home = () => {
     return (
         <Container>   
             <Box display="flex">
-             
             </Box>
             <ChatBot/>
         </Container>

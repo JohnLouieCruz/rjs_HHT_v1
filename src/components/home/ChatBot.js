@@ -1,17 +1,27 @@
 import React from "react";
 import ChatBots from "react-simple-chatbot";
+import Concern from "./Concern";
 import { ThemeProvider } from "styled-components";
 
-function ChatBot(props) {
+const ChatBot =()=> {
   const config = {
     width: "400px",
     height: "600px",
+    hideSubmitButton: true,
+    placeholder: "",
+    headerTitle:"Pofchat",
+    customDelay:1500,
     floating: true,
   };
-  const options = {
-    color: "#cccccc",
-  };
+
   const steps = [
+    {
+      id: "Header",
+      trigger: "Greet",
+      component: (
+        <Concern/>
+      ),
+    },
     {
       id: "Greet",
       message: "Hi I'm Mr. Pajama your virtual assistant. How may I help you?",
@@ -101,7 +111,7 @@ function ChatBot(props) {
     },
     {
       id: "upgrade",
-      message: "https://www.transport.wa.gov.au/licensing/u",
+      component: <a href="https://www.transport.wa.gov.au/licensing/u" target="https://www.transport.wa.gov.au/licensing/u">https://www.transport.wa.gov.au/licensing/u</a>,
       trigger: "feedback",
     },
     {
@@ -109,7 +119,6 @@ function ChatBot(props) {
       message: "Was this helpful?",
       trigger: "feed back choices",
     },
-
     {
       id: "feed back choices",
       options: [
@@ -141,7 +150,6 @@ function ChatBot(props) {
         "Sorry about that. Would you like me to connect you to CHT Agent instead?",
       trigger: "Adding Corn in Pizza",
     },
-
     {
       id: "Adding Corn in Pizza",
       options: [
@@ -160,7 +168,6 @@ function ChatBot(props) {
         },
       ],
     },
-
     {
       id: "Asking for cht agent",
       options: [
@@ -177,9 +184,10 @@ function ChatBot(props) {
     {
       id: "Done",
       message: "Have a great day !!",
-      end: true,
+      end: true
     },
   ];
+ 
   const theme = {
     background: "white",
     fontFamily: "Arial, Helvetica, sans-serif",
@@ -191,12 +199,13 @@ function ChatBot(props) {
     botFontColor: "#fff",
     userBubbleColor: "#073763",
     userFontColor: "#ffffff",
-    bubbleOptionStyle: "#cccccc",
   };
 
   return (
     <ThemeProvider theme={theme}>
-      <ChatBots steps={steps} {...config} />
+      <ChatBots steps={steps} {...config} 
+       bubbleOptionStyle={{ backgroundColor:'#01ffff', color:'black' }}
+       />
     </ThemeProvider>
   );
 }
