@@ -1,6 +1,7 @@
 import React from "react";
 import ChatBots from "react-simple-chatbot";
 import Concern from "./Concern";
+import pofsis from "../../assets/images/icons/pofsis1.png"
 import { ThemeProvider } from "styled-components";
 
 const ChatBot =()=> {
@@ -18,9 +19,7 @@ const ChatBot =()=> {
     {
       id: "Header",
       trigger: "Greet",
-      component: (
-        <Concern/>
-      ),
+      component: ( <Concern/> ),
     },
     {
       id: "Greet",
@@ -53,12 +52,7 @@ const ChatBot =()=> {
         {
           value: "Pricing Matrix",
           label: "Pricing Matrix",
-          trigger: "Asking for Subscription",
-        },
-        {
-          value: "Pricing Matrix",
-          label: "Pricing Matrix",
-          trigger: "Asking for Subscription",
+          trigger: "pricing",
         },
         {
           value: "Others",
@@ -67,26 +61,7 @@ const ChatBot =()=> {
         },
       ],
     },
-    {
-      id: "Asking for Subscription",
-      message: "Do you want to Subscribe?",
-      trigger: "Asking for permission",
-    },
-    {
-      id: "Asking for permission",
-      options: [
-        {
-          value: true,
-          label: "Yes",
-          trigger: "Done",
-        },
-        {
-          value: "false",
-          label: "No",
-          trigger: "feedback",
-        },
-      ],
-    },
+    //questions
     {
       id: "Asking for License",
       options: [
@@ -105,13 +80,44 @@ const ChatBot =()=> {
       ],
     },
     {
+      id: "Asking for Subscription",
+      message: "Do you want to Subscribe?",
+      trigger: "Asking for permission",
+    },
+    {
+      id: "Asking for permission",
+      options: [
+        {
+          value: true,
+          label: "Yes",
+          trigger: "subscribe",
+        },
+        {
+          value: "false",
+          label: "No",
+          trigger: "feedback",
+        },
+      ],
+    },
+    //answers
+    {
       id: "get",
-      message: "Punta ka LTO lods",
+      component: <a href="https://www.transport.wa.gov.au/licensing/learn-to-drive-my-first-licence.asp" target="https://www.transport.wa.gov.au/licensing/learn-to-drive-my-first-licence.asp">www.transport.wa.gov.au/licensing/learn-to-drive-my-first-licence.asp</a>,
       trigger: "feedback",
     },
     {
       id: "upgrade",
-      component: <a href="https://www.transport.wa.gov.au/licensing/u" target="https://www.transport.wa.gov.au/licensing/u">https://www.transport.wa.gov.au/licensing/u</a>,
+      component: <a href="https://www.transport.wa.gov.au/licensing/upgrade-add-a-licence.asp" target="https://www.transport.wa.gov.au/licensing/upgrade-add-a-licence.asp">www.transport.wa.gov.au/licensing/upgrade-add-a-licence.asp</a>,
+      trigger: "feedback",
+    },
+    {
+      id: "subscribe",
+      component: <a href="https://www.transport.wa.gov.au/licensing/upgrade-add-a-licence.asp" target="https://www.transport.wa.gov.au/licensing/upgrade-add-a-licence.asp">www.transport.wa.gov.au/licensing/upgrade-add-a-licence.asp</a>,
+      trigger: "feedback",
+    },
+    {
+      id: "pricing",
+      component: <a href="https://www.transport.wa.gov.au/aboutus/fees-grants-and-subsidies.asp" target="https://www.transport.wa.gov.au/aboutus/fees-grants-and-subsidies.asp">www.transport.wa.gov.au/aboutus/fees-grants-and-subsidies.asp</a>,
       trigger: "feedback",
     },
     {
@@ -147,18 +153,18 @@ const ChatBot =()=> {
     {
       id: "sorry to hear that",
       message:
-        "Sorry about that. Would you like me to connect you to CHT Agent instead?",
-      trigger: "Adding Corn in Pizza",
+        "Sorry about that. Would you like me to connect you to HHT Agent instead?",
+      trigger: "Pass to agent",
     },
     {
-      id: "Adding Corn in Pizza",
+      id: "Pass to agent",
       options: [
         {
           value: true,
           label: "Yes",
           trigger: () => {
             //props.eventHandler("corn");
-            return "Asking for cht agent";
+            return "Asking for hht agent";
           },
         },
         {
@@ -169,7 +175,7 @@ const ChatBot =()=> {
       ],
     },
     {
-      id: "Asking for cht agent",
+      id: "Asking for hht agent",
       options: [
         {
           value: true,
@@ -203,7 +209,8 @@ const ChatBot =()=> {
 
   return (
     <ThemeProvider theme={theme}>
-      <ChatBots steps={steps} {...config} 
+      <ChatBots steps={steps} {...config}
+       botAvatar={pofsis} 
        bubbleOptionStyle={{ backgroundColor:'#01ffff', color:'black' }}
        />
     </ThemeProvider>
